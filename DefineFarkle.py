@@ -62,16 +62,16 @@ class Roll:
             return(False)
 
     def score_roll(self):
-		"""
-		Score a roll. Order of Checks:
-		one through six, six of a kind,
-		five of a kind, four of a kind,
-		four of a kind with a pair, and so on
-		
-		Return and stop the checking process 
-		if a scenario rules out the possibility 
-		of further scoring (e.g. four of a kind and a pair)
-		"""
+        """
+        Score a roll. Order of Checks:
+        one through six, six of a kind,
+        five of a kind, four of a kind with a pair,
+        four of a kind, and so on.
+
+        Return and stop the checking process
+        if a scenario rules out the possibility
+        of further scoring (e.g. four of a kind and a pair)
+        """
         if self.one_through_six():
             self.score = 1500
             self.scoring_dice = 6
@@ -117,11 +117,40 @@ class Roll:
 
 
 class Turn:
+    """
+    Executes one turn (several rolls) of a farkle game
+    """
     def __init__(self, roll_mode='user'):
         # user mode will ask before rolling
         # sim mode will roll automatically
         self.dice = 6
         self.score = 0
         self.rolls = 0
+        self.farkled = False
+        self.roll_again = "Yes"
+
+        # initial roll
+        roll1 = Roll(self.dice)
+        if (roll1.farkled):
+            print("You Farkled")
+        else:
+            self.score += roll1.score
+            # fix assumption that fewer than 6 dice scored
+            self.dice -= roll1.scoring_dice
+            print(f"Score: {self.score} \nDice Remaining: {self.dice}")
+            while(not self.farkled):
+                if (input("Roll Again? ").lower() == "no"):
+                    break
+                else:
+                    this_roll = Roll(self.dice)
+                    if(this_roll.farkled):
+                        print("You Farkled!")
+                        self.farkled = True
+                        self.score = 0
+                    else:
+                        self.score += this_roll.score
+                        self.dice -= this_roll.scoring_dice
+                        print(f"Score: {self.score} \nDice Remaining: {self.dice}")
+        
         
    
