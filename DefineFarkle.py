@@ -62,17 +62,27 @@ class Roll:
             return(False)
 
     def score_roll(self):
+		"""
+		Score a roll. Order of Checks:
+		one through six, six of a kind,
+		five of a kind, four of a kind,
+		four of a kind with a pair, and so on
+		
+		Return and stop the checking process 
+		if a scenario rules out the possibility 
+		of further scoring (e.g. four of a kind and a pair)
+		"""
         if self.one_through_six():
             self.score = 1500
             self.scoring_dice = 6
             return
         if self.six_of_a_kind():
             self.score = 3000
-            self.six_of_a_kind = 6
+            self.scoring_dice = 6
             return
         if self.five_of_a_kind():
             self.score = 2000
-            self.six_of_a_kind = 5
+            self.scoring_dice = 5
         if self.four_of_a_kind():
             if self.num_pairs == 1:
                 self.score = 1500
@@ -107,7 +117,11 @@ class Roll:
 
 
 class Turn:
-    def __init__(self):
+    def __init__(self, roll_mode='user'):
+        # user mode will ask before rolling
+        # sim mode will roll automatically
         self.dice = 6
         self.score = 0
         self.rolls = 0
+        
+   
