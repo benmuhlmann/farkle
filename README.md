@@ -1,5 +1,5 @@
 # farkle
-My girlfiend and I love browsing the half-aisle toy section at Fry's - the Kroger chain here in Arizona. 
+My girlfriend and I love browsing the half-aisle toy section at Fry's - the Kroger chain here in Arizona. 
 One of our trips yielded a purchase of Farkle, "The classic dice-rolling, risk-taking game".
 _Describe game_
 
