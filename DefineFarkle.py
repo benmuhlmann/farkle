@@ -43,8 +43,8 @@ class Roll:
         face_dict and reverse_dict
         """
         dice_roll = rd.randint(1, 7, self.dice)
-        for i in range(self.dice):
-            self.face_dict[dice_roll[i]] += 1
+        for die in dice_roll:
+            self.face_dict[die] += 1
         for key, value in self.face_dict.items():
             self.reverse_dict[value].append(key)
 
@@ -116,7 +116,7 @@ class Roll:
         if self.num_triplets() == 1:
             self.score = 100*self.reverse_dict[3][0]
             self.scoring_dice = 3
-        if self.num_pairs == 3:
+        if self.num_pairs() == 3:
             self.score = 1500
             self.scoring_dice = 6
             return
