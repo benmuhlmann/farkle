@@ -111,7 +111,7 @@ class Roll:
         return
 
     def farkle_check(self):
-        if self.score == 0:
+        if self.scoring_dice == 0:
             self.farkled = True
         return self.farkled
 
@@ -125,32 +125,50 @@ class Turn:
         # sim mode will roll automatically
         self.dice = 6
         self.score = 0
-        self.rolls = 0
+        self.rolls = 1
         self.farkled = False
         self.roll_again = "Yes"
 
         # initial roll
         roll1 = Roll(self.dice)
         if (roll1.farkled):
-            print("You Farkled")
+            print(roll1.face_dict)
+            self.farkle_procedure()
         else:
-            self.score += roll1.score
-            # fix assumption that fewer than 6 dice scored
-            self.dice -= roll1.scoring_dice
-            print(f"Score: {self.score} \nDice Remaining: {self.dice}")
+            self.scoring_roll_procedure(roll1)
             while(not self.farkled):
-                if (input("Roll Again? ").lower() == "no"):
-                    break
+                if roll_mode == "auto":
+                    self.subsequent_roll()
                 else:
-                    this_roll = Roll(self.dice)
-                    if(this_roll.farkled):
-                        print("You Farkled!")
-                        self.farkled = True
-                        self.score = 0
+                    if (input("Roll Again").lower() == "no"):
+                        break
                     else:
-                        self.score += this_roll.score
-                        self.dice -= this_roll.scoring_dice
-                        print(f"Score: {self.score} \nDice Remaining: {self.dice}")
-        
-        
-   
+                        self.subsequent_roll()
+    score_string = "Score: {} \nDice Remaining: {}"
+
+    def all_scored_check(self):
+        if self.dice == 0:
+            self.dice = 6
+        pass
+
+    def subsequent_roll(self):
+        self.rolls += 1
+        this_roll = Roll(self.dice)
+        if(this_roll.farkled):
+            self.farkle_procedure()
+        else:
+            self.scoring_roll_procedure(this_roll)
+
+    def farkle_procedure(self):
+        print()
+        self.dice = 0
+        self.farkled = True
+        self.score = 0
+        print("You Farkled")
+
+    def scoring_roll_procedure(self, roll):
+        print(roll.face_dict)
+        self.score += roll.score
+        self.dice -= roll.scoring_dice
+        self.all_scored_check()
+        print("Score: {} \nDice Remaining: {}".format(self.score, self.dice))
