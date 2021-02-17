@@ -4,11 +4,25 @@ Created on Wed Nov 25 10:10:21 2020
 
 @author: benmu
 """
-from random import randint
+import numpy.random as rd
 from collections import defaultdict
 
 
 class Roll:
+    """
+    Executes one farkle roll.
+
+    init parameters:
+    dice: number of dice to roll
+    score: the resulting score of this roll
+    scoring_dice: the number of dice in this roll that scored
+    farkled: farkle indicator
+    face_dict: keys are faces, 
+               values are number of times the 'key' face appears
+    reverse_dict: keys are number of times a face appears, 
+                  values are faces which appear 'key' times
+    """
+    
     def __init__(self, dice):
         self.dice = dice
         self.score = 0
@@ -24,9 +38,13 @@ class Roll:
         self.farkle_check()
 
     def roll_dice(self):
+        """
+        Generates a dice roll and updates
+        face_dict and reverse_dict
+        """
+        dice_roll = rd.randint(1, 7, self.dice)
         for i in range(self.dice):
-            die_roll = randint(1, 6)
-            self.face_dict[die_roll] += 1
+            self.face_dict[dice_roll[i]] += 1
         for key, value in self.face_dict.items():
             self.reverse_dict[value].append(key)
 
@@ -119,39 +137,65 @@ class Roll:
 class Turn:
     """
     Executes one turn (several rolls) of a farkle game
+    init parameters:
+    roll_mode:
+    "user" mode asks a user if they want
+    to roll remaining dice, and gives status of turn between rolls
+
+    "auto" mode will suppress turn status print statements
+    as well as keep the turns highest score
+    (won't reset a turns score to 0 if a farkle occurs
+    See implementation.py for examples of using "auto" mode
+    to simulate turns
+    
+    object attributes:
+    dice: number of dice remaining to roll
+    score: the sum of each Roll's score (or 0 if a farkle occurs)
+    rolls: the number of rolls in this turn
+    fakled: farkle indicator
     """
     def __init__(self, roll_mode='user'):
         # user mode will ask before rolling
         # sim mode will roll automatically
+        self.roll_mode = roll_mode
         self.dice = 6
         self.score = 0
         self.rolls = 1
         self.farkled = False
-        self.roll_again = "Yes"
 
         # initial roll
         roll1 = Roll(self.dice)
         if (roll1.farkled):
-            print(roll1.face_dict)
+            print(roll1.reverse_dict)
             self.farkle_procedure()
         else:
             self.scoring_roll_procedure(roll1)
             while(not self.farkled):
-                if roll_mode == "auto":
+                if self.roll_mode == "auto":
                     self.subsequent_roll()
                 else:
-                    if (input("Roll Again").lower() == "no"):
+                    if (input("Roll Again? ").lower() == "no"):
                         break
                     else:
                         self.subsequent_roll()
-    score_string = "Score: {} \nDice Remaining: {}"
 
     def all_scored_check(self):
+        """
+        check if all dice score 
+        (only checked if farkle doesn't occur)
+        """
         if self.dice == 0:
             self.dice = 6
         pass
 
     def subsequent_roll(self):
+        """
+        packages the process for 2nd, 3rd rolls etc. 
+        into one method.
+        increments the Turn's roll counter, 
+        creates a new Roll object, 
+        checks output of new Roll
+        """
         self.rolls += 1
         this_roll = Roll(self.dice)
         if(this_roll.farkled):
@@ -160,15 +204,26 @@ class Turn:
             self.scoring_roll_procedure(this_roll)
 
     def farkle_procedure(self):
-        print()
+        """
+        Put all the post-farkle steps into one method
+        """ 
         self.dice = 0
         self.farkled = True
-        self.score = 0
-        print("You Farkled")
+        if self.roll_mode == "user":
+            self.score = 0  # don't zero score in auto mode for sim purposes
+            print("You Farkled!")  # only print updates in user mode
 
     def scoring_roll_procedure(self, roll):
-        print(roll.face_dict)
+        """
+        Everything that happens post-non-farkle roll.
+        Add Roll's score to Turn's score,
+        Subtract Roll's Scoring Dice from Turn's current dice,
+        Check if all dice scored 
+        """
+        # |testing| print(roll.face_dict)
         self.score += roll.score
         self.dice -= roll.scoring_dice
         self.all_scored_check()
-        print("Score: {} \nDice Remaining: {}".format(self.score, self.dice))
+        # only print updates in user mode
+        if self.roll_mode == "user":
+            print(f"Score: {self.score} \nDice Remaining: {self.dice}")
