@@ -166,7 +166,6 @@ class Turn:
         # initial roll
         roll1 = Roll(self.dice)
         if (roll1.farkled):
-            print(roll1.reverse_dict)
             self.farkle_procedure()
         else:
             self.scoring_roll_procedure(roll1)
