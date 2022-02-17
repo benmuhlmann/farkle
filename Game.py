@@ -1,5 +1,18 @@
+"""
+To-Do
+1. Add docstrings to class methods
+2. Add a space after asking player name
+3. Add more checks for user input
+4. Add procedure at end of while loop
+(What happens when a player hits the target score?)
+5. Add the entire procedure for a player hitting the target score
+(Everyone else rolls again)
+(Use Player dict)
+"""
+
 from DefineFarkle import *
 import time
+
 
 class Game:
     """
@@ -13,7 +26,6 @@ class Game:
         self.players = list()
         self.scores = dict()
         self.rounds = 0
-
 
     def get_player_list(self):
         player_list = list()
@@ -39,12 +51,8 @@ class Game:
                 current_turn = Turn()
                 self.scores[player] += current_turn.score
 
+
 if __name__ == "__main__":
     my_game = Game(2, 3000)
     my_game.get_player_list()
     my_game.game_loop()
-
-
-
-
-

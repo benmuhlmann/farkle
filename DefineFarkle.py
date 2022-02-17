@@ -1,3 +1,9 @@
+"""
+To-Do list
+1. only accept 'y' and 'n' in Turn class when asking to roll again
+"""
+
+
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov 25 10:10:21 2020
@@ -6,7 +12,6 @@ Created on Wed Nov 25 10:10:21 2020
 """
 import numpy.random as rd
 from collections import defaultdict
-
 
 class Roll:
     """
@@ -226,3 +231,6 @@ class Turn:
         # only print updates in user mode
         if self.roll_mode == "user":
             print(f"Score: {self.score} \nDice Remaining: {self.dice}")
+
+
+
