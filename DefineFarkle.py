@@ -1,6 +1,6 @@
 """
 To-Do list
-1. only accept 'y' and 'n' in Turn class when asking to roll again
+DONE 1. only accept 'y' and 'n' in Turn class when asking to roll again
 2. remove roll_dice(), score_roll(), and farkle_check() from Roll's init method.
    This will make testing easier. (Will be able to initialize a roll, modify the
    face_dict or reverse_dict attributes, then separately 'roll' and score
@@ -44,9 +44,6 @@ class Roll:
         for face in range(1, 7):
             self.face_dict[face]
 
-        self.roll_dice()
-        self.score_roll()
-        self.farkle_check()
 
     def roll_dice(self):
         """
@@ -176,6 +173,9 @@ class Turn:
 
         # initial roll
         roll1 = Roll(self.dice)
+        roll1.roll_dice()
+        roll1.score_roll()
+        roll1.farkle_check()
         if (roll1.farkled):
             self.farkle_procedure()
         else:
@@ -216,6 +216,9 @@ class Turn:
         """
         self.rolls += 1
         this_roll = Roll(self.dice)
+        this_roll.roll_dice()
+        this_roll.score_roll()
+        this_roll.farkle_check()
         if(this_roll.farkled):
             self.farkle_procedure()
         else:
