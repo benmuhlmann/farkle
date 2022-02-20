@@ -47,9 +47,10 @@ class Game:
                 print(f"scores: \n {self.scores}\n")
                 time.sleep(1)
                 print("Rolling...\n")
-                time.sleep(2)
+                time.sleep(1)
                 current_turn = Turn()
                 self.scores[player] += current_turn.score
+                time.sleep(1)
 
 
 if __name__ == "__main__":

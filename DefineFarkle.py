@@ -184,8 +184,16 @@ class Turn:
                 if self.roll_mode == "auto":
                     self.subsequent_roll()
                 else:
-                    if (input("Roll Again? ").lower() == "no"):
+                    # ask user if they want to roll again. Keep asking until they enter "y" or "n"
+                    while (True):
+                        user_response = input("roll again? y/n ")
+                        if user_response.lower() in ["y", "n"]:
+                            break
+                    # end the turn if the user inputs "n"
+                    if user_response.lower() == 'n':
                         break
+
+                    # roll again if the user inputs "y"
                     else:
                         self.subsequent_roll()
 
