@@ -1,7 +1,7 @@
 """
 To-Do
 1. Add docstrings to class methods
-2. Add a space after asking player name
+DONE 2. Add a space after asking player name
 3. Add more checks for user input
 4. Add procedure at end of while loop
 (What happens when a player hits the target score?)
@@ -30,7 +30,7 @@ class Game:
     def get_player_list(self):
         player_list = list()
         for i in range(1, self.num_players+1):
-            name = input(f"What's player {i}'s name?")
+            name = input(f"What's player {i}'s name? ")
             player_list.append(name)
             self.scores[name] = 0
             self.players.append(name)
@@ -53,6 +53,8 @@ class Game:
 
 
 if __name__ == "__main__":
-    my_game = Game(2, 3000)
+    num_players = input("How many players? ")
+    Threshold =  input("What score do you want to play to? ")
+    my_game = Game(int(num_players), int(Threshold))
     my_game.get_player_list()
     my_game.game_loop()

@@ -1,7 +1,13 @@
 """
 To-Do list
 1. only accept 'y' and 'n' in Turn class when asking to roll again
+2. remove roll_dice(), score_roll(), and farkle_check() from Roll's init method.
+   This will make testing easier. (Will be able to initialize a roll, modify the
+   face_dict or reverse_dict attributes, then separately 'roll' and score
+   to assert scores are as expected
+3. Add above roll related methods when initializing a roll in the Turn class
 """
+
 
 
 # -*- coding: utf-8 -*-
