@@ -1,11 +1,11 @@
 """
 To-Do list
 DONE 1. only accept 'y' and 'n' in Turn class when asking to roll again
-2. remove roll_dice(), score_roll(), and farkle_check() from Roll's init method.
+DONE 2. remove roll_dice(), score_roll(), and farkle_check() from Roll's init method.
    This will make testing easier. (Will be able to initialize a roll, modify the
    face_dict or reverse_dict attributes, then separately 'roll' and score
    to assert scores are as expected
-3. Add above roll related methods when initializing a roll in the Turn class
+DONE 3. Add above roll related methods when initializing a roll in the Turn class
 """
 
 
@@ -122,7 +122,12 @@ class Roll:
             self.scoring_dice = 6
             return
         if self.num_triplets() == 1:
-            self.score = 100*self.reverse_dict[3][0]
+            # if three ones, score 300. else, 100 * face appearing thrice
+            triplet_face = self.reverse_dict[3][0]
+            if triplet_face == 1:
+                self.score = 300
+            else:
+                self.score = 100*self.reverse_dict[3][0]
             self.scoring_dice = 3
         if self.num_pairs() == 3:
             self.score = 1500
