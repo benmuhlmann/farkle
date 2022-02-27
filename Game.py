@@ -1,14 +1,17 @@
 """
 To-Do
 1. Add docstrings to class methods
-DONE 2. Add a space after asking player name
+    DONE 2. Add a space after asking player name
 3. Add more checks for user input
-DONE 4. Add procedure at end of while loop
-(What happens when a player hits the target score?)
-DONE 5. Add the entire procedure for a player hitting the target score
-(Everyone else rolls again)
-(Use Player dict)
+    DONE 4. Add procedure at end of while loop
+    (What happens when a player hits the target score?)
+    DONE 5. Add the entire procedure for a player hitting the target score
+    (Everyone else rolls again)
+    (Use Player dict)
 6. Ensure no two players can have the same name
+7. condense score incrementing for a turn and associated prints and sleeps into one function
+Code is repeated in game_loop() and score_above_threshold() methods
+
 """
 
 from DefineFarkle import *
@@ -107,12 +110,13 @@ class Game:
         self.declare_winner()
 
 
-
-
-
-if __name__ == "__main__":
+def main():
     num_players = input("How many players? ")
-    Threshold =  input("What score do you want to play to? ")
+    Threshold = input("What score do you want to play to? ")
     my_game = Game(int(num_players), int(Threshold))
     my_game.get_player_list()
     my_game.game_loop()
+
+
+if __name__ == "__main__":
+   main()
